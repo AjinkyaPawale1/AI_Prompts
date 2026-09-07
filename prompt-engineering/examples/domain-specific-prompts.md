@@ -254,4 +254,3 @@ Check for factual support, missing context, assumptions, ambiguity, harmful bias
 3. Items needing qualified human review
 4. A final readiness status: not ready, ready with review, or ready
 ```
-
