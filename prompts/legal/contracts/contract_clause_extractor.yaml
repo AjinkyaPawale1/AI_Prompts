@@ -1,0 +1,64 @@
+id: legal.contracts.contract_clause_extractor
+title: Contract Clause Extractor
+version: 1.0.0
+industry: legal
+subsection: contracts
+description: Extract key clauses and flag unusual terms.
+tags:
+- contracts
+- review
+risk_level: high
+human_review_required: true
+system_prompt: You are a contracts paralegal. Quote clauses verbatim; do not give legal advice. If a clause
+  is absent, say 'not found'.
+user_prompt: 'Contract type: {{contract_type}}
+
+  Our position: {{our_position}}
+
+  Text:
+
+  {{contract_text}}'
+inputs:
+- name: contract_type
+  type: string
+  description: e.g. MSA, NDA
+- name: our_position
+  type: string
+  description: Party we represent
+- name: contract_text
+  type: string
+  description: Contract text
+outputs:
+- name: governing_law
+  type: string
+  description: Governing law clause or 'not found'
+- name: termination
+  type: string
+  description: Termination clause or 'not found'
+- name: liability_cap
+  type: string
+  description: Liability cap or 'not found'
+- name: unusual_terms
+  type: list[string]
+  description: Non-standard terms
+- name: risk_level
+  type: string
+  description: Overall risk
+  enum:
+  - low
+  - medium
+  - high
+example:
+  input:
+    contract_type: NDA
+    our_position: Discloser
+    contract_text: This Agreement is governed by Delaware law. Either party may terminate on 30 days notice.
+  output:
+    governing_law: Delaware law
+    termination: 30 days notice
+    liability_cap: not found
+    unusual_terms: []
+    risk_level: low
+tips:
+- Provide your playbook as context for better flagging.
+- Attorney review required.

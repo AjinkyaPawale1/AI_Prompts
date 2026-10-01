@@ -1,0 +1,55 @@
+id: insurance.underwriting.submission_risk_summary
+title: Submission Risk Summary
+version: 1.0.0
+industry: insurance
+subsection: underwriting
+description: Summarise a commercial submission for underwriters.
+tags:
+- underwriting
+risk_level: high
+human_review_required: true
+system_prompt: You are an underwriting assistant. Highlight, don't decide. Cite submission sections.
+user_prompt: 'Submission:
+
+  {{submission}}
+
+  Appetite guidelines:
+
+  {{appetite}}'
+inputs:
+- name: submission
+  type: string
+  description: Submission text
+- name: appetite
+  type: string
+  description: Appetite guidelines
+outputs:
+- name: summary
+  type: string
+  description: Summary
+- name: within_appetite
+  type: string
+  description: Appetite fit
+  enum:
+  - 'yes'
+  - 'no'
+  - borderline
+- name: red_flags
+  type: list[string]
+  description: Red flags
+- name: info_requests
+  type: list[string]
+  description: Missing info
+example:
+  input:
+    submission: Restaurant, 5 locations, 2 fire claims
+    appetite: Restaurants ok; no recent fire losses
+  output:
+    summary: Restaurant chain with fire history.
+    within_appetite: borderline
+    red_flags:
+    - 2 fire claims
+    info_requests:
+    - Loss run dates
+tips:
+- Pair with your actual appetite document.

@@ -1,0 +1,46 @@
+id: legal.litigation.deposition_summary
+title: Deposition Summary
+version: 1.0.0
+industry: legal
+subsection: litigation
+description: Summarise deposition testimony by topic with page cites.
+tags:
+- litigation
+risk_level: high
+human_review_required: true
+system_prompt: You are a litigation assistant. Cite page:line for every point. Do not characterise credibility.
+user_prompt: 'Witness: {{witness}}
+
+  Transcript:
+
+  {{transcript}}'
+inputs:
+- name: witness
+  type: string
+  description: Witness name
+- name: transcript
+  type: string
+  description: Transcript with page/line numbers
+outputs:
+- name: topics
+  type: list[string]
+  description: Topic summaries with cites
+- name: admissions
+  type: list[string]
+  description: Key admissions with cites
+- name: follow_up_questions
+  type: list[string]
+  description: Gaps to pursue
+example:
+  input:
+    witness: J. Doe
+    transcript: 12:3 Q. Did you sign? A. Yes.
+  output:
+    topics:
+    - Signing (12:3)
+    admissions:
+    - Signed document (12:3)
+    follow_up_questions:
+    - Date of signing
+tips:
+- Keep line numbers in the input so cites survive.

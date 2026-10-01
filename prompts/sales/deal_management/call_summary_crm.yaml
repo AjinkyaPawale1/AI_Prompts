@@ -1,0 +1,50 @@
+id: sales.deal_management.call_summary_crm
+title: Sales Call Summary for CRM
+version: 1.0.0
+industry: sales
+subsection: deal_management
+description: Summarise a call into CRM fields with MEDDICC signals.
+tags:
+- crm
+risk_level: low
+human_review_required: true
+system_prompt: 'You are a sales ops assistant. Only record what was said. Unknown fields: ''unknown''.'
+user_prompt: 'Transcript:
+
+  {{transcript}}'
+inputs:
+- name: transcript
+  type: string
+  description: Call transcript
+outputs:
+- name: summary
+  type: string
+  description: Summary
+- name: next_steps
+  type: list[string]
+  description: Next steps
+- name: budget
+  type: string
+  description: Budget or 'unknown'
+- name: decision_maker
+  type: string
+  description: Decision maker or 'unknown'
+- name: deal_risk
+  type: string
+  description: Risk
+  enum:
+  - low
+  - medium
+  - high
+example:
+  input:
+    transcript: We have 50k budget; CFO Lee decides; need by Q3.
+  output:
+    summary: Budget 50k, Q3 timeline.
+    next_steps:
+    - Send proposal
+    budget: 50k
+    decision_maker: CFO Lee
+    deal_risk: low
+tips:
+- Map output keys to CRM field names in your integration.

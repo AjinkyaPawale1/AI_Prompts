@@ -1,0 +1,55 @@
+id: sales.prospecting.cold_email_personalizer
+title: Cold Email Personalizer
+version: 1.0.0
+industry: sales
+subsection: prospecting
+description: Write a short personalised outbound email.
+tags:
+- outbound
+risk_level: low
+human_review_required: true
+system_prompt: You are a B2B SDR. Max 90 words. Reference only supplied facts. No false urgency.
+user_prompt: 'Prospect: {{prospect_name}}, {{role}} at {{company}}
+
+  Trigger: {{trigger}}
+
+  Our value prop: {{value_prop}}'
+inputs:
+- name: prospect_name
+  type: string
+  description: Name
+- name: role
+  type: string
+  description: Role
+- name: company
+  type: string
+  description: Company
+- name: trigger
+  type: string
+  description: Reason to reach out
+- name: value_prop
+  type: string
+  description: Value proposition
+outputs:
+- name: subject
+  type: string
+  description: Subject line
+- name: body
+  type: string
+  description: Email body
+- name: call_to_action
+  type: string
+  description: CTA
+example:
+  input:
+    prospect_name: Sam
+    role: VP Ops
+    company: Globex
+    trigger: Opened new plant
+    value_prop: Cut downtime 20%
+  output:
+    subject: Globex's new plant
+    body: Hi Sam...
+    call_to_action: 15-min call Thursday?
+tips:
+- A/B test subject lines; keep humans in the send loop.

@@ -1,0 +1,50 @@
+id: healthcare.revenue_cycle.denial_appeal_letter
+title: Claim Denial Appeal Letter
+version: 1.0.0
+industry: healthcare
+subsection: revenue_cycle
+description: Draft an insurance denial appeal from denial reason and clinical facts.
+tags:
+- billing
+risk_level: medium
+human_review_required: true
+system_prompt: You are a medical billing specialist. Cite only supplied facts and policy text. Keep tone
+  professional.
+user_prompt: 'Denial reason: {{denial_reason}}
+
+  Clinical facts: {{clinical_facts}}
+
+  Payer policy excerpt: {{policy_excerpt}}'
+inputs:
+- name: denial_reason
+  type: string
+  description: Reason on the denial
+- name: clinical_facts
+  type: string
+  description: Supporting clinical facts
+- name: policy_excerpt
+  type: string
+  description: Relevant policy text
+outputs:
+- name: letter
+  type: string
+  description: Appeal letter
+- name: arguments
+  type: list[string]
+  description: Core arguments
+- name: attachments_needed
+  type: list[string]
+  description: Supporting documents
+example:
+  input:
+    denial_reason: Not medically necessary
+    clinical_facts: Failed 6 weeks conservative therapy
+    policy_excerpt: MRI covered after 4 weeks therapy
+  output:
+    letter: Dear Reviewer...
+    arguments:
+    - Policy threshold of 4 weeks met
+    attachments_needed:
+    - PT notes
+tips:
+- Include the policy excerpt; it grounds the argument.

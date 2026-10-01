@@ -1,0 +1,52 @@
+id: insurance.claims.claim_intake_extractor
+title: Claim Intake Extractor
+version: 1.0.0
+industry: insurance
+subsection: claims
+description: Extract structured FNOL data from a claim narrative.
+tags:
+- fnol
+risk_level: high
+human_review_required: true
+system_prompt: Extract only stated facts. Use 'unknown' when missing. Do not decide coverage.
+user_prompt: 'Narrative:
+
+  {{narrative}}'
+inputs:
+- name: narrative
+  type: string
+  description: Claimant narrative
+outputs:
+- name: loss_type
+  type: string
+  description: Loss type
+  enum:
+  - auto
+  - property
+  - liability
+  - health
+  - other
+- name: loss_date
+  type: string
+  description: Date or 'unknown'
+- name: estimated_amount
+  type: number
+  description: Estimated amount (0 if unknown)
+  minimum: 0
+- name: injuries_reported
+  type: boolean
+  description: Injuries reported
+- name: fraud_indicators
+  type: list[string]
+  description: Inconsistencies noted
+example:
+  input:
+    narrative: On 3 May a pipe burst and flooded my kitchen, about $4000 damage.
+  output:
+    loss_type: property
+    loss_date: 3 May
+    estimated_amount: 4000
+    injuries_reported: false
+    fraud_indicators: []
+tips:
+- Fraud indicators are leads, not conclusions.

@@ -1,0 +1,63 @@
+id: manufacturing.quality.root_cause_8d
+title: 8D Root Cause Analysis
+version: 1.0.0
+industry: manufacturing
+subsection: quality
+description: Structure a defect investigation into 8D / 5-Why.
+tags:
+- 8d
+- quality
+risk_level: medium
+human_review_required: true
+system_prompt: You are a quality engineer. Separate verified facts from hypotheses.
+user_prompt: 'Defect: {{defect}}
+
+  Process: {{process}}
+
+  Observations:
+
+  {{observations}}'
+inputs:
+- name: defect
+  type: string
+  description: Defect description
+- name: process
+  type: string
+  description: Process / line
+- name: observations
+  type: string
+  description: Data and observations
+outputs:
+- name: five_whys
+  type: list[string]
+  description: Why chain
+- name: probable_root_cause
+  type: string
+  description: Most probable root cause
+- name: containment
+  type: list[string]
+  description: Immediate containment
+- name: corrective_actions
+  type: list[string]
+  description: Corrective actions
+- name: verification_needed
+  type: list[string]
+  description: Tests to confirm
+example:
+  input:
+    defect: Burrs on part X
+    process: CNC line 3
+    observations: Started after tool change
+  output:
+    five_whys:
+    - Burrs
+    - Worn tool
+    probable_root_cause: Tool wear beyond limit
+    containment:
+    - Quarantine lot
+    corrective_actions:
+    - Tool life counter
+    verification_needed:
+    - Measure tool wear
+tips:
+- Attach measurements; hypotheses are labelled for verification.

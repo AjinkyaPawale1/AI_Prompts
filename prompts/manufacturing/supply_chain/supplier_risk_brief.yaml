@@ -1,0 +1,50 @@
+id: manufacturing.supply_chain.supplier_risk_brief
+title: Supplier Risk Brief
+version: 1.0.0
+industry: manufacturing
+subsection: supply_chain
+description: Summarise supplier risk signals into a brief.
+tags:
+- procurement
+risk_level: medium
+human_review_required: true
+system_prompt: You are a procurement risk analyst. Use only the supplied signals.
+user_prompt: 'Supplier: {{supplier}}
+
+  Signals:
+
+  {{signals}}'
+inputs:
+- name: supplier
+  type: string
+  description: Supplier name
+- name: signals
+  type: string
+  description: News, delivery, financial signals
+outputs:
+- name: risk_level
+  type: string
+  description: Overall risk
+  enum:
+  - low
+  - medium
+  - high
+- name: drivers
+  type: list[string]
+  description: Risk drivers
+- name: mitigations
+  type: list[string]
+  description: Suggested mitigations
+example:
+  input:
+    supplier: MetalCo
+    signals: Two late deliveries; credit downgrade
+  output:
+    risk_level: high
+    drivers:
+    - Late deliveries
+    - Credit downgrade
+    mitigations:
+    - Qualify second source
+tips:
+- Feed structured signals from your ERP for consistency.

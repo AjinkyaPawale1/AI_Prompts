@@ -1,0 +1,51 @@
+id: legal.compliance.regulatory_change_impact
+title: Regulatory Change Impact
+version: 1.0.0
+industry: legal
+subsection: compliance
+description: Assess impact of a regulation update on internal policies.
+tags:
+- regulatory
+risk_level: high
+human_review_required: true
+system_prompt: You are a compliance counsel assistant. Be explicit about assumptions.
+user_prompt: 'Regulation update:
+
+  {{update_text}}
+
+  Internal policies:
+
+  {{policies}}'
+inputs:
+- name: update_text
+  type: string
+  description: Regulatory text
+- name: policies
+  type: string
+  description: Policy list or excerpts
+outputs:
+- name: impacted_policies
+  type: list[string]
+  description: Policies needing change
+- name: required_actions
+  type: list[string]
+  description: Actions
+- name: effective_date
+  type: string
+  description: Effective date or 'unknown'
+- name: assumptions
+  type: list[string]
+  description: Assumptions made
+example:
+  input:
+    update_text: Effective 1 Jan 2027, firms must retain records for 7 years.
+    policies: 'Retention policy: 5 years'
+  output:
+    impacted_policies:
+    - Retention policy
+    required_actions:
+    - Extend retention to 7 years
+    effective_date: '2027-01-01'
+    assumptions: []
+tips:
+- State jurisdiction in the input.

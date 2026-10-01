@@ -1,0 +1,50 @@
+id: retail.merchandising.product_description_generator
+title: Product Description Generator
+version: 1.0.0
+industry: retail
+subsection: merchandising
+description: Generate on-brand product copy from attributes.
+tags:
+- ecommerce
+- seo
+risk_level: low
+human_review_required: true
+system_prompt: You are a retail copywriter. Use only given attributes; no unsupported claims.
+user_prompt: 'Product: {{product_name}}
+
+  Attributes: {{attributes}}
+
+  Brand voice: {{brand_voice}}'
+inputs:
+- name: product_name
+  type: string
+  description: Product name
+- name: attributes
+  type: string
+  description: Features/specs
+- name: brand_voice
+  type: string
+  description: Tone guidance
+outputs:
+- name: title
+  type: string
+  description: SEO title
+- name: description
+  type: string
+  description: Description
+- name: bullets
+  type: list[string]
+  description: Feature bullets
+example:
+  input:
+    product_name: TrailRunner Shoe
+    attributes: Waterproof, 250g
+    brand_voice: energetic
+  output:
+    title: TrailRunner Waterproof Shoe
+    description: Light, waterproof.
+    bullets:
+    - Waterproof
+    - 250g
+tips:
+- Add banned-claims list to the attributes.
