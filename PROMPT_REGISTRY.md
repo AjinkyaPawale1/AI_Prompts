@@ -2,6 +2,8 @@
 
 Plug-and-play, versioned prompts for financial services, healthcare, manufacturing, legal, retail, sales, HR, insurance and technology. Every prompt ships with a **Pydantic-validated input contract, output contract, worked example, and tips**.
 
+See also the [documentation map](docs/README.md).
+
 ## Layout
 
 ```

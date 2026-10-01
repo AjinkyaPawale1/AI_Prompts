@@ -37,3 +37,14 @@ def test_fenced_json_parsed(reg):
     import json
     p = reg.search()[0]
     assert p.parse_output("```json\n" + json.dumps(p.example.output) + "\n```")
+
+
+def test_demo_retries_then_accepts():
+    import importlib.util
+    from pathlib import Path
+    path = Path(__file__).resolve().parent.parent / "examples" / "demo_credit_memo.py"
+    spec = importlib.util.spec_from_file_location("demo", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    _, audit = mod.run()
+    assert audit["attempts"] == 2 and audit["human_review_required"] is True
