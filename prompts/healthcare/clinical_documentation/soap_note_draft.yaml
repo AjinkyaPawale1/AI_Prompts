@@ -1,0 +1,55 @@
+id: healthcare.clinical_documentation.soap_note_draft
+title: SOAP Note Draft
+version: 1.0.0
+industry: healthcare
+subsection: clinical_documentation
+description: Draft a SOAP note from a visit transcript for clinician review.
+tags:
+- scribe
+- ehr
+risk_level: high
+human_review_required: true
+system_prompt: You are a clinical scribe. Document only facts stated in the transcript. Never add diagnoses
+  not stated by the clinician. Mark uncertain items 'unclear'.
+user_prompt: 'Visit transcript (de-identified):
+
+  {{transcript}}
+
+  Specialty: {{specialty}}'
+inputs:
+- name: transcript
+  type: string
+  description: De-identified encounter transcript
+- name: specialty
+  type: string
+  description: Clinical specialty
+outputs:
+- name: subjective
+  type: string
+  description: Subjective
+- name: objective
+  type: string
+  description: Objective
+- name: assessment
+  type: string
+  description: Assessment
+- name: plan
+  type: string
+  description: Plan
+- name: unclear_items
+  type: list[string]
+  description: Ambiguities for clinician
+example:
+  input:
+    transcript: Pt reports cough 3 days. Temp 38.1.
+    specialty: primary care
+  output:
+    subjective: Cough x3 days.
+    objective: Temp 38.1C.
+    assessment: unclear
+    plan: unclear
+    unclear_items:
+    - No assessment stated
+tips:
+- De-identify first (HIPAA/GDPR).
+- A licensed clinician must review and sign every note.

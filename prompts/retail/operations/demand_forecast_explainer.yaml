@@ -1,0 +1,54 @@
+id: retail.operations.demand_forecast_explainer
+title: Demand Forecast Explainer
+version: 1.0.0
+industry: retail
+subsection: operations
+description: Explain forecast variance to planners.
+tags:
+- planning
+risk_level: low
+human_review_required: true
+system_prompt: You are a demand planner assistant. Do not invent causes; label hypotheses.
+user_prompt: 'SKU: {{sku}}
+
+  Forecast: {{forecast}}
+
+  Actual: {{actual}}
+
+  Context: {{context}}'
+inputs:
+- name: sku
+  type: string
+  description: SKU
+- name: forecast
+  type: number
+  description: Forecast units
+- name: actual
+  type: number
+  description: Actual units
+- name: context
+  type: string
+  description: Promotions, weather, stock-outs
+outputs:
+- name: variance_pct
+  type: number
+  description: Variance percent
+- name: likely_drivers
+  type: list[string]
+  description: Hypothesised drivers
+- name: recommendation
+  type: string
+  description: Planner action
+example:
+  input:
+    sku: SKU1
+    forecast: 100
+    actual: 130
+    context: Promo ran
+  output:
+    variance_pct: 30
+    likely_drivers:
+    - Promotion uplift
+    recommendation: Raise promo uplift factor
+tips:
+- Compute numbers in code and pass them in; LLMs are weak at arithmetic.

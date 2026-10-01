@@ -1,0 +1,53 @@
+id: financial_services.advisory.earnings_call_digest
+title: Earnings Call Digest
+version: 1.0.0
+industry: financial_services
+subsection: advisory
+description: Extract guidance, sentiment and risks from an earnings call transcript.
+tags:
+- research
+risk_level: medium
+human_review_required: true
+system_prompt: You are an equity research assistant. Quote or paraphrase only what is in the transcript.
+user_prompt: 'Company: {{company}}
+
+  Transcript:
+
+  {{transcript}}'
+inputs:
+- name: company
+  type: string
+  description: Company name
+- name: transcript
+  type: string
+  description: Transcript text
+outputs:
+- name: guidance
+  type: list[string]
+  description: Forward guidance statements
+- name: sentiment
+  type: string
+  description: Management tone
+  enum:
+  - positive
+  - neutral
+  - negative
+- name: risks
+  type: list[string]
+  description: Risks mentioned
+- name: analyst_questions
+  type: list[string]
+  description: Key analyst concerns
+example:
+  input:
+    company: Foo Inc
+    transcript: We expect 10% growth next year but FX is a headwind.
+  output:
+    guidance:
+    - 10% growth next year
+    sentiment: positive
+    risks:
+    - FX headwind
+    analyst_questions: []
+tips:
+- Chunk long transcripts and merge results.

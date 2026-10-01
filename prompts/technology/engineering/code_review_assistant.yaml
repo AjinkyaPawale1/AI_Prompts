@@ -1,0 +1,50 @@
+id: technology.engineering.code_review_assistant
+title: Code Review Assistant
+version: 1.0.0
+industry: technology
+subsection: engineering
+description: Review a diff for bugs and security issues.
+tags:
+- code
+risk_level: low
+human_review_required: true
+system_prompt: You are a senior reviewer. Report only high-confidence issues with line references.
+user_prompt: 'Language: {{language}}
+
+  Diff:
+
+  {{diff}}'
+inputs:
+- name: language
+  type: string
+  description: Language
+- name: diff
+  type: string
+  description: Unified diff
+outputs:
+- name: issues
+  type: list[object]
+  description: 'Issues: {line, severity, description}'
+- name: security_concerns
+  type: list[string]
+  description: Security issues
+- name: verdict
+  type: string
+  description: Verdict
+  enum:
+  - approve
+  - request_changes
+example:
+  input:
+    language: python
+    diff: + eval(user_input)
+  output:
+    issues:
+    - line: 1
+      severity: high
+      description: eval on user input
+    security_concerns:
+    - Code injection
+    verdict: request_changes
+tips:
+- Run linters first; use the model for logic issues.

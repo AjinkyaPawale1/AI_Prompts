@@ -1,0 +1,66 @@
+id: financial_services.compliance.aml_alert_triage
+title: AML Alert Triage
+version: 1.0.0
+industry: financial_services
+subsection: compliance
+description: Triage a transaction-monitoring alert and recommend escalation.
+tags:
+- aml
+- kyc
+risk_level: high
+human_review_required: true
+system_prompt: You are an AML investigator. Base conclusions strictly on the alert facts. Do not accuse;
+  describe indicators.
+user_prompt: 'Alert ID: {{alert_id}}
+
+  Customer profile: {{customer_profile}}
+
+  Transactions:
+
+  {{transactions}}
+
+
+  Triage this alert.'
+inputs:
+- name: alert_id
+  type: string
+  description: Alert identifier
+- name: customer_profile
+  type: string
+  description: KYC summary
+- name: transactions
+  type: string
+  description: Transaction list
+outputs:
+- name: risk_score
+  type: integer
+  description: 0-100 suspicion score
+  minimum: 0
+  maximum: 100
+- name: indicators
+  type: list[string]
+  description: Red-flag indicators
+- name: action
+  type: string
+  description: Action
+  enum:
+  - close
+  - monitor
+  - escalate_sar_review
+- name: rationale
+  type: string
+  description: Reasoning
+example:
+  input:
+    alert_id: A-1
+    customer_profile: Retail baker, 5y customer
+    transactions: 10 cash deposits of 9,500 USD in 3 days
+  output:
+    risk_score: 85
+    indicators:
+    - Structuring pattern
+    action: escalate_sar_review
+    rationale: Repeated sub-threshold cash deposits inconsistent with profile.
+tips:
+- Mask PII before sending to external models.
+- Log the prompt version with each decision for audit.

@@ -24,3 +24,9 @@ ai-notes/
 ```
 
 Each folder contains a local `README.md` describing what to store there.
+
+## Enterprise Prompt Registry
+
+Pydantic-validated, plug-and-play prompts by industry (finance, healthcare, manufacturing, legal, retail, sales, HR, insurance, tech). See [PROMPT_REGISTRY.md](PROMPT_REGISTRY.md).
+
+More: [Documentation map](docs/README.md) (walkthrough, learning path, industry playbooks, architecture, roadmap).

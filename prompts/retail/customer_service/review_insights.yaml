@@ -1,0 +1,57 @@
+id: retail.customer_service.review_insights
+title: Customer Review Insights
+version: 1.0.0
+industry: retail
+subsection: customer_service
+description: Mine reviews for themes and sentiment.
+tags:
+- voc
+risk_level: low
+human_review_required: true
+system_prompt: You analyse customer reviews. Counts must come only from the supplied reviews.
+user_prompt: 'Product: {{product}}
+
+  Reviews:
+
+  {{reviews}}'
+inputs:
+- name: product
+  type: string
+  description: Product
+- name: reviews
+  type: string
+  description: Reviews, one per line
+outputs:
+- name: overall_sentiment
+  type: string
+  description: Sentiment
+  enum:
+  - positive
+  - mixed
+  - negative
+- name: top_praises
+  type: list[string]
+  description: Praise themes
+- name: top_complaints
+  type: list[string]
+  description: Complaint themes
+- name: recommended_actions
+  type: list[string]
+  description: Actions
+example:
+  input:
+    product: Blender
+    reviews: 'Loud but powerful
+
+      Broke after a month'
+  output:
+    overall_sentiment: mixed
+    top_praises:
+    - Powerful
+    top_complaints:
+    - Noise
+    - Durability
+    recommended_actions:
+    - Investigate durability
+tips:
+- Sample up to ~200 reviews per call.

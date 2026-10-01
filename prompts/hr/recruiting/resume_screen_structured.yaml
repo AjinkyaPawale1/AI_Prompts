@@ -1,0 +1,57 @@
+id: hr.recruiting.resume_screen_structured
+title: Structured Resume Screen
+version: 1.0.0
+industry: hr
+subsection: recruiting
+description: Compare a resume to job requirements using job-related criteria only.
+tags:
+- hiring
+risk_level: high
+human_review_required: true
+system_prompt: You assess skills against stated requirements only. Ignore name, age, gender, ethnicity,
+  photos and other protected traits.
+user_prompt: 'Job requirements:
+
+  {{requirements}}
+
+  Resume:
+
+  {{resume}}'
+inputs:
+- name: requirements
+  type: string
+  description: Must-have/nice-to-have list
+- name: resume
+  type: string
+  description: Resume text
+outputs:
+- name: matched_requirements
+  type: list[string]
+  description: Met requirements
+- name: gaps
+  type: list[string]
+  description: Unmet requirements
+- name: fit
+  type: string
+  description: Fit
+  enum:
+  - strong
+  - moderate
+  - weak
+- name: interview_questions
+  type: list[string]
+  description: Probing questions
+example:
+  input:
+    requirements: Python, 3y SQL
+    resume: 5y Python developer, SQL daily
+  output:
+    matched_requirements:
+    - Python
+    - SQL
+    gaps: []
+    fit: strong
+    interview_questions:
+    - Describe a SQL optimisation
+tips:
+- Redact personal identifiers; audit for bias; never auto-reject.

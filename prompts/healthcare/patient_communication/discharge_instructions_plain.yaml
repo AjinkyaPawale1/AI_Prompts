@@ -1,0 +1,48 @@
+id: healthcare.patient_communication.discharge_instructions_plain
+title: Plain-Language Discharge Instructions
+version: 1.0.0
+industry: healthcare
+subsection: patient_communication
+description: Rewrite discharge instructions at a target reading level.
+tags:
+- patient
+risk_level: high
+human_review_required: true
+system_prompt: You are a patient educator. Preserve every medication, dose and follow-up exactly. Do not
+  add medical advice.
+user_prompt: 'Instructions:
+
+  {{instructions}}
+
+  Reading grade level: {{grade_level}}'
+inputs:
+- name: instructions
+  type: string
+  description: Clinician discharge text
+- name: grade_level
+  type: integer
+  description: Target US grade level
+  minimum: 1
+  maximum: 12
+outputs:
+- name: plain_text
+  type: string
+  description: Rewritten instructions
+- name: medications
+  type: list[string]
+  description: Medications retained
+- name: warning_signs
+  type: list[string]
+  description: When to seek care
+example:
+  input:
+    instructions: Take amoxicillin 500mg TID x7d. Return if fever persists.
+    grade_level: 6
+  output:
+    plain_text: Take amoxicillin 500mg three times a day for 7 days.
+    medications:
+    - amoxicillin 500mg TID x7d
+    warning_signs:
+    - Fever that does not go away
+tips:
+- Diff medications vs. the source programmatically.

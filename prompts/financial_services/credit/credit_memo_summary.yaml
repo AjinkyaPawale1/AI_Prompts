@@ -1,0 +1,67 @@
+id: financial_services.credit.credit_memo_summary
+title: Credit Memo Summary
+version: 1.0.0
+industry: financial_services
+subsection: credit
+description: Summarise a borrower's financials into a credit memo with risks and a recommendation.
+tags:
+- credit
+- underwriting
+risk_level: high
+human_review_required: true
+system_prompt: You are a senior credit analyst. Use only the supplied data; never invent figures. Flag
+  missing data explicitly.
+user_prompt: 'Borrower: {{borrower}}
+
+  Facility amount (USD): {{facility_amount}}
+
+  Financial data:
+
+  {{financials}}
+
+
+  Produce a credit memo summary.'
+inputs:
+- name: borrower
+  type: string
+  description: Borrower legal name
+- name: facility_amount
+  type: number
+  description: Requested facility in USD
+  minimum: 0
+- name: financials
+  type: string
+  description: Key financials / ratios text
+outputs:
+- name: summary
+  type: string
+  description: Two-paragraph summary
+- name: key_risks
+  type: list[string]
+  description: Top credit risks
+- name: recommendation
+  type: string
+  description: Recommendation
+  enum:
+  - approve
+  - approve_with_conditions
+  - decline
+  - needs_more_info
+- name: missing_data
+  type: list[string]
+  description: Data gaps
+example:
+  input:
+    borrower: Acme Ltd
+    facility_amount: 5000000
+    financials: Revenue 40M, EBITDA 6M, Debt 18M
+  output:
+    summary: Acme shows stable revenue.
+    key_risks:
+    - Leverage 3.0x
+    recommendation: approve_with_conditions
+    missing_data:
+    - Covenant history
+tips:
+- Paste ratios rather than full statements to reduce hallucination.
+- Always route to a credit officer; the output is decision support only.

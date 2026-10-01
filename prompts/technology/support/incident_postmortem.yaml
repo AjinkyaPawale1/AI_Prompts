@@ -1,0 +1,56 @@
+id: technology.support.incident_postmortem
+title: Incident Postmortem Draft
+version: 1.0.0
+industry: technology
+subsection: support
+description: Draft a blameless postmortem from timeline and logs.
+tags:
+- sre
+risk_level: low
+human_review_required: true
+system_prompt: You are an SRE. Blameless tone. Separate facts from hypotheses.
+user_prompt: 'Incident: {{incident}}
+
+  Timeline:
+
+  {{timeline}}'
+inputs:
+- name: incident
+  type: string
+  description: Title
+- name: timeline
+  type: string
+  description: Timeline and log excerpts
+outputs:
+- name: summary
+  type: string
+  description: Summary
+- name: root_cause
+  type: string
+  description: Root cause
+- name: impact
+  type: string
+  description: Impact
+- name: action_items
+  type: list[string]
+  description: Action items
+- name: severity
+  type: string
+  description: Severity
+  enum:
+  - low
+  - medium
+  - high
+example:
+  input:
+    incident: API outage
+    timeline: 10:00 deploy; 10:05 5xx spike; 10:20 rollback
+  output:
+    summary: Deploy caused 5xx.
+    root_cause: Faulty deploy
+    impact: 20 minutes of errors
+    action_items:
+    - Add canary
+    severity: high
+tips:
+- Include raw timestamps for accuracy.

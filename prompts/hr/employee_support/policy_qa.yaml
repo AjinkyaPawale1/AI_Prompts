@@ -1,0 +1,43 @@
+id: hr.employee_support.policy_qa
+title: HR Policy Q&A
+version: 1.0.0
+industry: hr
+subsection: employee_support
+description: Answer employee questions strictly from policy text.
+tags:
+- rag
+risk_level: medium
+human_review_required: true
+system_prompt: Answer only from the policy excerpt. If it does not answer, say so and refer to HR.
+user_prompt: 'Policy:
+
+  {{policy}}
+
+  Question: {{question}}'
+inputs:
+- name: policy
+  type: string
+  description: Policy excerpt
+- name: question
+  type: string
+  description: Employee question
+outputs:
+- name: answer
+  type: string
+  description: Answer
+- name: answerable
+  type: boolean
+  description: Policy answers it
+- name: cited_section
+  type: string
+  description: Section cited or 'none'
+example:
+  input:
+    policy: 3.1 Employees get 20 vacation days.
+    question: How many vacation days?
+  output:
+    answer: 20 days.
+    answerable: true
+    cited_section: '3.1'
+tips:
+- Use retrieval to supply only the relevant policy section.

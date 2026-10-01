@@ -1,0 +1,53 @@
+id: manufacturing.maintenance.maintenance_log_classifier
+title: Maintenance Log Classifier
+version: 1.0.0
+industry: manufacturing
+subsection: maintenance
+description: Classify free-text technician logs into failure codes.
+tags:
+- predictive
+- cmms
+risk_level: low
+human_review_required: true
+system_prompt: You classify maintenance logs. Choose the closest category; use 'other' if unsure.
+user_prompt: 'Equipment: {{equipment}}
+
+  Log entry: {{log_text}}'
+inputs:
+- name: equipment
+  type: string
+  description: Asset ID or type
+- name: log_text
+  type: string
+  description: Technician text
+outputs:
+- name: category
+  type: string
+  description: Failure category
+  enum:
+  - mechanical
+  - electrical
+  - hydraulic
+  - software
+  - operator_error
+  - other
+- name: severity
+  type: string
+  description: Severity
+  enum:
+  - low
+  - medium
+  - high
+- name: follow_up_required
+  type: boolean
+  description: Needs follow-up
+example:
+  input:
+    equipment: Press-12
+    log_text: Hydraulic line leaking at fitting
+  output:
+    category: hydraulic
+    severity: medium
+    follow_up_required: true
+tips:
+- Batch many logs per call using the JSON output.
